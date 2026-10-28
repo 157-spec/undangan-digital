@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Undangan Pernikahan Andre &amp; Aida</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+</head>
+<body class="locked">
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <g id="blossom">
+        <g fill="#f7cfd8">
+          <ellipse cy="-14" rx="9" ry="14" />
+          <ellipse cy="-14" rx="9" ry="14" transform="rotate(72)" />
+          <ellipse cy="-14" rx="9" ry="14" transform="rotate(144)" />
+          <ellipse cy="-14" rx="9" ry="14" transform="rotate(216)" />
+          <ellipse cy="-14" rx="9" ry="14" transform="rotate(288)" />
+        </g>
+        <circle r="4" fill="#d4b26a" />
+      </g>
+    </defs>
+    <symbol id="branch" viewBox="0 0 240 150">
+      <path d="M0 10C60 20 110 40 150 85S215 135 240 140" stroke="#7b5a4a" stroke-width="5" fill="none" stroke-linecap="round" />
+      <path d="M92 31C102 58 122 68 142 72" stroke="#7b5a4a" stroke-width="3" fill="none" />
+      <path d="M40 16C48 38 40 52 30 62" stroke="#7b5a4a" stroke-width="3" fill="none" />
+      <use href="#blossom" transform="translate(30 62) scale(.9)" />
+      <use href="#blossom" transform="translate(70 22) scale(1)" />
+      <use href="#blossom" transform="translate(108 52) scale(.85)" />
+      <use href="#blossom" transform="translate(142 72) scale(1)" />
+      <use href="#blossom" transform="translate(190 118) scale(.9)" />
+      <use href="#blossom" transform="translate(232 140) scale(.7)" />
+    </symbol>
+    <symbol id="sprig" viewBox="0 0 120 220">
+      <path d="M60 215C58 150 62 80 60 8" stroke="currentColor" stroke-width="2" fill="none" />
+      <g fill="currentColor">
+        <path d="M60 190c-30-4-44-24-46-40 26 2 42 18 46 40z" />
+        <path d="M60 160c30-4 44-24 46-40-26 2-42 18-46 40z" />
+        <path d="M60 130c-28-4-40-22-42-36 24 2 38 16 42 36z" />
+        <path d="M60 100c28-4 40-22 42-36-24 2-38 16-42 36z" />
+        <path d="M60 70c-22-4-32-18-34-30 20 2 30 12 34 30z" />
+        <path d="M60 44c20-4 28-16 30-26-18 2-26 10-30 26z" />
+        <circle cx="60" cy="8" r="6" />
+      </g>
+    </symbol>
+  </svg>
+
+  <div id="gate">
+    <div class="door left">
+      <svg class="branch"><use href="#branch" /></svg>
+    </div>
+    <div class="door right">
+      <svg class="branch"><use href="#branch" /></svg>
+    </div>
+    <div class="gate-content text-center">
+      <div class="rings" aria-hidden="true"><i></i><i></i></div>
+      <div class="mono">A<span>&amp;</span>D</div>
+      <p class="mb-1">Undangan pernikahan untuk</p>
+      <h2 id="guestName">Tamu Undangan</h2>
+      <button id="openBtn" class="btn btn-gold mt-3">Buka undangan</button>
+    </div>
+  </div>
+
+  <audio id="bgm" loop src="musik.mp3"></audio>
+  <button id="musicBtn" class="music" aria-label="Putar atau jeda musik">♪</button>
+  <div id="petals" aria-hidden="true"></div>
+
+  <header id="home" class="hero dark">
+    <svg class="branch b1"><use href="#branch" /></svg>
+    <svg class="branch b2"><use href="#branch" /></svg>
+    <svg class="sprig bl"><use href="#sprig" /></svg>
+    <svg class="sprig br"><use href="#sprig" /></svg>
+    <div class="text-center position-relative">
+      <p class="lead-in">Kami akan menikah</p>
+      <div class="arch">
+        <div>
+          <h1 class="names">Andre<em>&amp;</em>Aida</h1>
+          <p class="date-line" id="dateLine"></p>
+        </div>
+      </div>
+      <div class="row g-2 justify-content-center countdown">
+        <div class="col-3"><b id="cd-d">0</b><small>hari</small></div>
+        <div class="col-3"><b id="cd-h">0</b><small>jam</small></div>
+        <div class="col-3"><b id="cd-m">0</b><small>menit</small></div>
+        <div class="col-3"><b id="cd-s">0</b><small>detik</small></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="marquee" aria-hidden="true">
+    <span>Andre &amp; Aida ❀ 20 Desember 2026 ❀ Surabaya ❀ Andre &amp; Aida ❀ 20 Desember 2026 ❀ Surabaya ❀</span>
+  </div>
+
+  <section class="paper text-center">
+    <div class="container narrow reveal">
+      <p class="quote">“Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan pasangan untukmu dari jenismu sendiri, agar kamu merasa tenteram kepadanya.”</p>
+      <small class="accent">QS. Ar-Rum: 21</small>
+    </div>
+  </section>
+
+  <section id="couple" class="dark">
+    <div class="container">
+      <h2 class="title text-center reveal">Mempelai</h2>
+      <div class="row g-5 mt-1">
+        <div class="col-md-6 reveal">
+          <div class="person tilt-l">
+            <div class="frame-arch">
+              <div class="ph" data-ph="Foto Andre&#10;(foto/andre.jpg)">
+                <img src="foto/andre.jpg" alt="Foto Andre" onerror="this.remove()">
+              </div>
+            </div>
+            <h3>Andre Pratama</h3>
+            <p>Putra dari Bapak Hendra &amp; Ibu Sari</p>
+          </div>
+        </div>
+        <div class="col-md-6 reveal">
+          <div class="person tilt-r">
+            <div class="frame-arch">
+              <div class="ph blush" data-ph="Foto Aida&#10;(foto/aida.jpg)">
+                <img src="foto/aida.jpg" alt="Foto Aida" onerror="this.remove()">
+              </div>
+            </div>
+            <h3>Aida Safitri</h3>
+            <p>Putri dari Bapak Rahmat &amp; Ibu Dewi</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="prewed" class="paper text-center">
+    <div class="container">
+      <h2 class="title reveal">Momen prewedding</h2>
+      <div class="prewed reveal">
+        <svg class="sprig corner c1"><use href="#sprig" /></svg>
+        <svg class="sprig corner c2"><use href="#sprig" /></svg>
+        <div class="ph wide" data-ph="Foto prewedding&#10;(foto/prewedding.jpg)">
+          <img src="foto/prewedding.jpg" alt="Foto prewedding Andre dan Aida" onerror="this.remove()">
+        </div>
+        <p class="cap">Andre &amp; Aida · Prewedding</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="event" class="paper">
+    <div class="container">
+      <h2 class="title text-center reveal">Waktu &amp; tempat</h2>
+      <div class="row g-4 mt-1">
+        <div class="col-md-6 reveal">
+          <div class="ticket">
+            <h3>Akad nikah</h3>
+            <p class="big">Sabtu, 20 Desember 2026</p>
+            <p>08.00 – 10.00 WIB</p>
+            <p>Masjid Al-Ikhlas<br>Jl. Merdeka No. 10, Surabaya</p>
+          </div>
+        </div>
+        <div class="col-md-6 reveal">
+          <div class="ticket">
+            <h3>Resepsi</h3>
+            <p class="big">Sabtu, 20 Desember 2026</p>
+            <p>11.00 – 14.00 WIB</p>
+            <p>Gedung Graha Bahagia<br>Jl. Mawar No. 5, Surabaya</p>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-4 reveal">
+        <a class="btn btn-rose" id="calBtn" href="#">Simpan ke kalender</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="lokasi" class="dark">
+    <div class="container">
+      <h2 class="title text-center reveal">Peta lokasi</h2>
+      <ul class="nav nav-pills justify-content-center my-3" id="mapTabs">
+        <li><button class="nav-link active" data-k="akad">Akad nikah</button></li>
+        <li><button class="nav-link" data-k="resepsi">Resepsi</button></li>
+      </ul>
+      <div id="map" class="reveal"></div>
+      <div class="text-center mt-3">
+        <button id="distBtn" class="btn btn-outline-gold">Hitung jarak dari lokasi saya</button>
+        <a id="routeBtn" class="btn btn-gold" target="_blank" rel="noopener">Petunjuk arah</a>
+        <p id="distInfo" class="mt-2 mb-0"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="story" class="paper">
+    <div class="container narrow">
+      <h2 class="title text-center reveal">Cerita kami</h2>
+      <ol class="timeline mt-4">
+        <li class="reveal">
+          <b>2019 · Bertemu</b>
+          <p>Kami bertemu di bangku kuliah, saat satu kelompok tugas yang tak pernah selesai tepat waktu.</p>
+        </li>
+        <li class="reveal">
+          <b>2022 · Saling memilih</b>
+          <p>Dari teman diskusi menjadi teman perjalanan. Kami memutuskan berjalan bersama.</p>
+        </li>
+        <li class="reveal">
+          <b>2025 · Lamaran</b>
+          <p>Dengan restu keluarga, Andre melamar Aida di rumah orang tuanya.</p>
+        </li>
+        <li class="reveal">
+          <b>2026 · Menikah</b>
+          <p>Kami mengundang Anda untuk hadir dan mendoakan hari bahagia kami.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="gift" class="dark rose">
+    <div class="container narrow text-center">
+      <h2 class="title reveal">Hadiah</h2>
+      <p class="reveal">Kehadiran dan doa Anda sudah menjadi hadiah terindah. Bila ingin berbagi tanda kasih, kami menerimanya di sini.</p>
+      <div class="ticket light mt-3 reveal">
+        <p class="mb-0">Bank BCA a.n. Andre Pratama</p>
+        <p class="big" id="rek">1234567890</p>
+        <button class="btn btn-gold btn-sm" id="copyBtn">Salin nomor rekening</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="rsvp" class="paper">
+    <div class="container narrow">
+      <h2 class="title text-center reveal">Konfirmasi &amp; ucapan</h2>
+      <form id="rsvpForm" class="mt-3 reveal" novalidate>
+        <div class="mb-3">
+          <label for="nama" class="form-label">Nama</label>
+          <input id="nama" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="hadir" class="form-label">Kehadiran</label>
+          <select id="hadir" class="form-select">
+            <option>Hadir</option>
+            <option>Tidak hadir</option>
+            <option>Masih ragu</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="pesan" class="form-label">Ucapan dan doa</label>
+          <textarea id="pesan" rows="3" class="form-control" required></textarea>
+        </div>
+        <button class="btn btn-rose w-100">Kirim ucapan</button>
+      </form>
+      <div id="wishes" class="mt-4"></div>
+    </div>
+  </section>
+
+  <footer class="dark text-center pb-5 mb-5">
+    <p class="quote mb-1">Terima kasih atas doa dan kehadiran Anda.</p>
+    <h2 class="names small-names">Andre<em>&amp;</em>Aida</h2>
+  </footer>
+
+  <nav class="navbar fixed-bottom bottom-nav">
+    <div class="container justify-content-around">
+      <a href="#home">Awal</a>
+      <a href="#couple">Mempelai</a>
+      <a href="#event">Acara</a>
+      <a href="#lokasi">Peta</a>
+      <a href="#rsvp">Ucapan</a>
+    </div>
+  </nav>
+
+  <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
+    <div id="toast" class="toast text-bg-dark" role="status">
+      <div class="toast-body" id="toastMsg"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
